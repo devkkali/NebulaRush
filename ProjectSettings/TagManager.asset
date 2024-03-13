@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - PlayerBullet
+  - EnemyBullet
+  - PowerHealth
+  - PowerBullet
+  - PowerShield
+  - Meteors
   layers:
   - Default
   - TransparentFX
