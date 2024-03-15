@@ -57,12 +57,23 @@ public class GameManager : MonoBehaviour
         Debug.Log("Boss is killed and go to scene" + levelName);
         if (levelName == "Level1" || levelName == "EasyLevelScene")
         {
-            Debug.Log("Boss is killed and go to scene Easy" + levelName);
+            Debug.Log("this is active scene name" + SceneManager.GetActiveScene().name);
 
-            // For Level 1, use the launch animation
-            menuCanvas.SetActive(false);
-            lunchCanvas.SetActive(true);
-            StartCoroutine(LoadLevelAfterAnimation(levelName));
+            
+            
+            if (SceneManager.GetActiveScene().name == "GameOverScene")
+            {
+                // For Level 1, use the launch animations
+                Debug.Log("I am here");
+                SceneManager.LoadScene("EasyLevelScene");
+            }
+            else
+            {
+                Debug.Log("I am here2");
+                menuCanvas.SetActive(false);
+                lunchCanvas.SetActive(true);
+                StartCoroutine(LoadLevelAfterAnimation(levelName));
+            }
         }
         else
         {
@@ -100,20 +111,19 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator LoadLevelWithLoadingScreen(string levelName)
     {
-        
         Debug.Log($"[GameManager] Starting load of {levelName} with loading screen.");
 
         loadingScreen.SetActive(true); // Show the loading screen
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(levelName);
         asyncLoad.allowSceneActivation = false; // Prevent the scene from being activated immediately after loading
-        
-        
+
+
         // Introduce a minimum display time for the loading screen
         float minimumDisplayTime = 3.0f; // Minimum 3 seconds display
         float loadStartTime = Time.time;
-        
-        
+
+
         while (!asyncLoad.isDone)
         {
             float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f); // Calculate progress

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement; // Add this to use the new Input System
@@ -10,6 +11,7 @@ public class MenuButtonController : MonoBehaviour
     public int index;
     [SerializeField] bool keyDown;
     [SerializeField] int maxIndex;
+    [SerializeField] TextMeshProUGUI scoreTextGameOver; // Assign your TextMeshPro UI element in the Inspector
 
     // References to AudioSources
     public AudioSource audioSource;
@@ -112,7 +114,19 @@ public class MenuButtonController : MonoBehaviour
                 // StartLevelTransition("EasyLevelScene");
 
                 GameManager.Instance.StartLevelTransition("EasyLevelScene");
+            }else if (index ==1)
+            {
+                Application.Quit();
             }
         }
+
+        GameOverScore();
+    }
+
+
+
+    private void GameOverScore()
+    {
+        scoreTextGameOver.text = $"Score: {ScoreManager.Instance.GetCurrentScore()}";
     }
 }

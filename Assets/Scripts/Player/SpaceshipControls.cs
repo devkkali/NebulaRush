@@ -31,7 +31,9 @@ public class SpaceshipControls : MonoBehaviour
     private float remainingInvincibilityTime = 0f;
     private Coroutine invincibilityCoroutine;
     private bool canReceiveNewShield = true;
-    private float shieldPickupCooldown = 0.5f;
+    private bool canReceiveNewBullet = true;
+    private bool canReceiveNewHealth = true;
+    private float powerPickupCooldown = 0.5f;
     private bool pickedUpShieldDuringInvincibility = false;
     [SerializeField] private float bounceForce = 2f;
 
@@ -74,20 +76,20 @@ public class SpaceshipControls : MonoBehaviour
             audioManager = FindObjectOfType<easyLevelAudio>();
         }
 
-		// PlayerLavel=ScoreManager.Instance.getBulletLevel("level change");
+        // PlayerLavel=ScoreManager.Instance.getBulletLevel("level change");
         Debug.Log("Bullet level at Start" + ScoreManager.Instance.getBulletLevel());
 
 
-		// Find and cache the PlayerScore script on the player object
-		/** playerScore = FindObjectOfType<PlayerScore>();
+        // Find and cache the PlayerScore script on the player object
+        /** playerScore = FindObjectOfType<PlayerScore>();
         if (playerScore == null)
         {
             UnityEngine.Debug.LogError("PlayerScore script not found on the player object!");
         }
         **/
-	}
+    }
 
-	private void Awake()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
         spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>(true));
@@ -296,7 +298,8 @@ public class SpaceshipControls : MonoBehaviour
             // Handle player death here
             gameObject.SetActive(false); // Or Destroy(gameObject);
 
-            SceneManager.LoadScene("GameOverScene");
+            //SceneManager.LoadScene("GameOverScene");
+            LevelManager.Instance.PlayerDefeated();
         }
         else
         {
@@ -366,14 +369,24 @@ public class SpaceshipControls : MonoBehaviour
 
     private void GetLife()
     {
-     //   Debug.Log("current life is:" + healthBar.currentLives);
-        healthBar.GainLife();
-      //  Debug.Log("current life is2:" + healthBar.currentLives);
+        if (canReceiveNewHealth)
+        {
+            canReceiveNewHealth = false;
+            StartCoroutine(HealthPickupCooldownRoutine());
+            //   Debug.Log("current life is:" + healthBar.currentLives);
+            healthBar.GainLife();
+            //  Debug.Log("current life is2:" + healthBar.currentLives);
+        }
     }
 
     private void GetBullet()
     {
-        IncreasePlayerLevel();
+        if (canReceiveNewBullet)
+        {
+            canReceiveNewBullet = false;
+            StartCoroutine(BulletPickupCooldownRoutine());
+            IncreasePlayerLevel();
+        }
     }
 
     // Call this function when player picks up a shield power-up
@@ -410,8 +423,20 @@ public class SpaceshipControls : MonoBehaviour
 
     private IEnumerator ShieldPickupCooldownRoutine()
     {
-        yield return new WaitForSeconds(shieldPickupCooldown);
+        yield return new WaitForSeconds(powerPickupCooldown);
         canReceiveNewShield = true; // Reset flag after cooldown
+    }
+
+    private IEnumerator HealthPickupCooldownRoutine()
+    {
+        yield return new WaitForSeconds(powerPickupCooldown);
+        canReceiveNewHealth = true; // Reset flag after cooldown
+    }
+
+    private IEnumerator BulletPickupCooldownRoutine()
+    {
+        yield return new WaitForSeconds(powerPickupCooldown);
+        canReceiveNewBullet = true; // Reset flag after cooldown
     }
 
     private void ReducePlayerLevel()
@@ -423,14 +448,12 @@ public class SpaceshipControls : MonoBehaviour
     private void IncreasePlayerLevel()
     {
         ScoreManager.Instance.increaseBulletLevel();
-  //       PlayerLavel = Mathf.Min(PlayerLavel + 1, 3); // Ensure player level does not exceed max level
-		// ScoreManager.Instance.ChangeBulletLevel(PlayerLavel);
-		// Debug.Log("Bullet level at increase" + PlayerLavel);
+        //       PlayerLavel = Mathf.Min(PlayerLavel + 1, 3); // Ensure player level does not exceed max level
+        // ScoreManager.Instance.ChangeBulletLevel(PlayerLavel);
+        // Debug.Log("Bullet level at increase" + PlayerLavel);
+    }
 
-
-	}
-
-	private IEnumerator InvincibilityCountdown()
+    private IEnumerator InvincibilityCountdown()
     {
         while (remainingInvincibilityTime > 0f)
         {

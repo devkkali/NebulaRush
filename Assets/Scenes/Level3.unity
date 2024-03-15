@@ -396,13 +396,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392134659}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c332116223fe1c84dae5a96b35141a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   powerBulletPrefab: {fileID: 5452554398591073056, guid: 067bcee1cffc5a0429211d859aae71fd, type: 3}
-  spawnRate: 5
+  spawnRate: 14
 --- !u!114 &392134663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,13 +410,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392134659}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 50ad20041946f2f4c804c8dba311814a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthspawnPrefab: {fileID: 5452554398591073056, guid: 688990ba932928f478f1c0192402fb3b, type: 3}
-  spawnRate: 9
+  spawnRate: 15
 --- !u!114 &392134664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,7 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shieldspawnPrefab: {fileID: 5452554398591073056, guid: b5135c44b028f1441a8a3d174bc87b27, type: 3}
-  spawnRate: 7
+  spawnRate: 16
 --- !u!20 &519420031 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 6694398773519484407, guid: f5f8e95378ce2124897e5145607e3b72, type: 3}
@@ -1400,6 +1400,7 @@ MonoBehaviour:
   levelDistanceThreshold: 0.009
   screenFlickerAnimator: {fileID: 728212574}
   level: 3
+  isExploding: 0
 --- !u!1 &1609742146
 GameObject:
   m_ObjectHideFlags: 0

@@ -234,7 +234,7 @@ public class LevelManager : MonoBehaviour
 
             // Wait for the explosion state to start playing.
             yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("EnemyExplosionAnimation"));
-            
+
             boss.SetActive(false);
             yield return new WaitForSeconds(1);
             // Debug.Log("[WaitAndPlayExplosion] Triggering explosion animation1.");
@@ -288,6 +288,16 @@ public class LevelManager : MonoBehaviour
             StartCoroutine(WaitAndPlayExplosion(boss));
         }
 
+
+        // Start next level or show victory screen
+    }
+
+
+    public void PlayerDefeated()
+    {
+        //StartCoroutine(WaitAndPlayExplosion(boss));
+        ScoreManager.Instance.SaveScore();
+        GameManager.Instance.StartLevelTransition("GameOverScene");
 
         // Start next level or show victory screen
     }
